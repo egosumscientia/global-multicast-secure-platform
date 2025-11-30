@@ -32,8 +32,8 @@ resource "azurerm_local_network_gateway" "aws" {
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
-  gateway_address = var.aws_ip          # IP pública del VPN AWS
-  address_space   = [var.aws_cidr]      # 10.10.0.0/16
+  gateway_address = var.aws_ip
+  address_space   = [var.aws_cidr]
 }
 
 # -----------------------------
@@ -44,8 +44,8 @@ resource "azurerm_local_network_gateway" "gcp" {
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
-  gateway_address = var.gcp_ip          # IP pública del VPN GCP
-  address_space   = [var.gcp_cidr]      # 10.30.0.0/16
+  gateway_address = var.gcp_ip
+  address_space   = [var.gcp_cidr]
 }
 
 # -----------------------------
@@ -60,7 +60,7 @@ resource "azurerm_virtual_network_gateway_connection" "conn_azure_aws" {
   virtual_network_gateway_id = azurerm_virtual_network_gateway.gw.id
   local_network_gateway_id   = azurerm_local_network_gateway.aws.id
 
-  shared_key = var.psk_aws   # PSK para AWS
+  shared_key = var.psk_aws   # ← ESTA VARIABLE NO EXISTE → DEBES DECLARARLA
 }
 
 # -----------------------------
@@ -75,5 +75,5 @@ resource "azurerm_virtual_network_gateway_connection" "conn_azure_gcp" {
   virtual_network_gateway_id = azurerm_virtual_network_gateway.gw.id
   local_network_gateway_id   = azurerm_local_network_gateway.gcp.id
 
-  shared_key = var.psk_gcp   # PSK para GCP
+  shared_key = var.psk_gcp   # ← ESTA VARIABLE TAMPOCO EXISTE
 }

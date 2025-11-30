@@ -18,11 +18,11 @@ resource "google_compute_vpn_tunnel" "tunnel_aws" {
   name          = "gcp-aws-tunnel"
   region        = var.region
   vpn_gateway   = google_compute_vpn_gateway.vpn_gateway.id
-  peer_ip       = var.aws_ip
+  peer_ip       = var.aws_ip        # ← ESTA VARIABLE NO PUEDE ESTAR VACÍA
   shared_secret = var.psk
   router        = google_compute_router.router.id
 
-  local_traffic_selector  = [var.subnet_cidr]
+  local_traffic_selector  = [var.subnet_cidr]   # ← VARIABLE FALTANTE
   remote_traffic_selector = [var.aws_cidr]
 }
 
@@ -30,11 +30,11 @@ resource "google_compute_vpn_tunnel" "tunnel_azure" {
   name          = "gcp-azure-tunnel"
   region        = var.region
   vpn_gateway   = google_compute_vpn_gateway.vpn_gateway.id
-  peer_ip       = var.azure_ip
+  peer_ip       = var.azure_ip     # ← ESTA VARIABLE TAMPOCO PUEDE ESTAR VACÍA
   shared_secret = var.psk
   router        = google_compute_router.router.id
 
-  local_traffic_selector  = [var.subnet_cidr]
+  local_traffic_selector  = [var.subnet_cidr]   # ← MISMO PROBLEMA
   remote_traffic_selector = [var.azure_cidr]
 }
 

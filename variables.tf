@@ -37,3 +37,21 @@ variable "gcp_cidr" {
 variable "psk" {
   type = string
 }
+
+variable "subnet_cidr" {
+  type = string
+}
+
+variable "psk_azure" {
+  type = string
+}
+
+variable "psk_gcp" {
+  type = string
+}
+
+variable "subscription_id" { type = string }
+variable "tenant_id"       { type = string }
+variable "client_id"       { type = string }
+variable "client_secret"   { type = string }
+

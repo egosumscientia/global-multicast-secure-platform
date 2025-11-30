@@ -35,3 +35,7 @@ variable "aws_cidr" {
 variable "azure_cidr" {
   type = string
 }
+
+variable "gcp_cidr" {
+  type = string
+}

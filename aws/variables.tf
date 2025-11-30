@@ -19,6 +19,10 @@ variable "gcp_cidr" {
   type = string
 }
 
+variable "aws_cidr" {
+  type = string
+}
+
 variable "psk_azure" {
   type = string
 }
