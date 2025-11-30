@@ -1,6 +1,5 @@
 variable "region" {
-  type    = string
-  default = "us-east-1"
+  type = string
 }
 
 variable "azure_ip" {
@@ -11,15 +10,15 @@ variable "gcp_ip" {
   type = string
 }
 
+variable "aws_cidr" {
+  type = string
+}
+
 variable "azure_cidr" {
   type = string
 }
 
 variable "gcp_cidr" {
-  type = string
-}
-
-variable "aws_cidr" {
   type = string
 }
 

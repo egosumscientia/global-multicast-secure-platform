@@ -1,57 +1,75 @@
-resource "aws_vpn_gateway" "vgw" {
-  vpc_id = aws_vpc.main.id
+##############################
+#  MÓDULO AWS
+##############################
+module "aws" {
+  source = "./aws"
 
-  tags = {
-    Name = "aws-multicloud-vgw"
-  }
+  region     = var.region
+
+  # IPs públicas de los gateways remotos
+  azure_ip   = var.azure_ip
+  gcp_ip     = var.gcp_ip
+
+  # CIDRs remotos
+  azure_cidr = var.azure_cidr
+  gcp_cidr   = var.gcp_cidr
+  aws_cidr   = var.aws_cidr
+
+  # PSKs correctos
+  psk_aws = var.psk_aws   # AWS ↔ AZURE
+  psk_gcp = var.psk_gcp   # AWS ↔ GCP
 }
 
-resource "aws_customer_gateway" "cg_azure" {
-  bgp_asn    = 65010
-  ip_address = var.azure_ip
-  type       = "ipsec.1"
 
-  tags = {
-    Name = "aws-to-azure-cgw"
-  }
+##############################
+#  MÓDULO AZURE
+##############################
+module "azure" {
+  source = "./azure"
+
+  region       = var.region
+
+  # IPs públicas remotas
+  aws_ip       = var.aws_ip
+  gcp_ip       = var.gcp_ip
+
+  # CIDRs remotos
+  aws_cidr     = var.aws_cidr
+  gcp_cidr     = var.gcp_cidr
+  azure_cidr   = var.azure_cidr
+
+  # PSKs correctos
+  psk_aws = var.psk_aws   # AWS ↔ AZURE
+  psk_gcp = var.psk_gcp   # AZURE ↔ GCP
+
+  subscription_id = var.subscription_id
+  tenant_id       = var.tenant_id
+  client_id       = var.client_id
+  client_secret   = var.client_secret
 }
 
-resource "aws_customer_gateway" "cg_gcp" {
-  bgp_asn    = 65020
-  ip_address = var.gcp_ip
-  type       = "ipsec.1"
 
-  tags = {
-    Name = "aws-to-gcp-cgw"
-  }
-}
+##############################
+#  MÓDULO GCP
+##############################
+module "gcp" {
+  source = "./gcp"
 
-resource "aws_vpn_connection" "vpn_aws_azure" {
-  vpn_gateway_id      = aws_vpn_gateway.vgw.id
-  customer_gateway_id = aws_customer_gateway.cg_azure.id
-  type                = "ipsec.1"
-  static_routes_only  = true
+  project = var.project
+  region  = var.region
+  zone    = var.zone
 
-  tunnel1_preshared_key = var.psk_aws
-  tunnel2_preshared_key = var.psk_aws
-}
+  subnet_cidr = var.subnet_cidr
 
-resource "aws_vpn_connection" "vpn_aws_gcp" {
-  vpn_gateway_id      = aws_vpn_gateway.vgw.id
-  customer_gateway_id = aws_customer_gateway.cg_gcp.id
-  type                = "ipsec.1"
-  static_routes_only  = true
+  # IPs públicas remotas
+  aws_ip     = var.aws_ip
+  azure_ip   = var.azure_ip
 
-  tunnel1_preshared_key = var.psk_gcp
-  tunnel2_preshared_key = var.psk_gcp
-}
+  # CIDRs remotos
+  aws_cidr   = var.aws_cidr
+  azure_cidr = var.azure_cidr
+  gcp_cidr   = var.gcp_cidr
 
-resource "aws_vpn_connection_route" "route_aws_to_azure" {
-  destination_cidr_block = var.azure_cidr
-  vpn_connection_id      = aws_vpn_connection.vpn_aws_azure.id
-}
-
-resource "aws_vpn_connection_route" "route_aws_to_gcp" {
-  destination_cidr_block = var.gcp_cidr
-  vpn_connection_id      = aws_vpn_connection.vpn_aws_gcp.id
+  # PSK correcto
+  psk = var.psk_gcp   # AZURE ↔ GCP
 }

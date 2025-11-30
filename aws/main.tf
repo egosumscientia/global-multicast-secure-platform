@@ -1,3 +1,6 @@
+#################################
+#  CONFIGURACIÓN DEL PROVEEDOR
+#################################
 terraform {
   required_version = ">= 1.6.0"
 
@@ -12,3 +15,8 @@ terraform {
 provider "aws" {
   region = "us-east-1"
 }
+
+#################################
+#  INCLUIR LOS ARCHIVOS DEL MÓDULO
+#  (Terraform los carga automáticamente)
+#################################
