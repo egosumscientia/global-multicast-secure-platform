@@ -1,0 +1,25 @@
+# Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+.crash
+*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Credenciales
+*.pem
+*.key
+*.pfx
+*.cer
+*.pub
+*.tfvars
+*.tfvars.json
+*.json
+
+# Sistemas
+.DS_Store
+Thumbs.db
