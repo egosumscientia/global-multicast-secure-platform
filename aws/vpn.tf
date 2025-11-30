@@ -32,8 +32,8 @@ resource "aws_vpn_connection" "vpn_aws_azure" {
   type                = "ipsec.1"
   static_routes_only  = true
 
-  tunnel1_preshared_key = var.psk_azure
-  tunnel2_preshared_key = var.psk_azure
+  tunnel1_preshared_key = var.psk_aws
+  tunnel2_preshared_key = var.psk_aws
 }
 
 resource "aws_vpn_connection" "vpn_aws_gcp" {

@@ -20,13 +20,10 @@ resource "azurerm_virtual_network_gateway" "gw" {
     name                          = "vpngw-ipconfig"
     public_ip_address_id          = azurerm_public_ip.vpn_ip.id
     private_ip_address_allocation = "Dynamic"
-    subnet_id                     = azurerm_subnet.subnet.id
+    subnet_id                     = azurerm_subnet.gateway.id
   }
 }
 
-# -----------------------------
-# Local Network Gateway: AWS
-# -----------------------------
 resource "azurerm_local_network_gateway" "aws" {
   name                = "aws-local-gateway"
   location            = azurerm_resource_group.rg.location
@@ -36,9 +33,6 @@ resource "azurerm_local_network_gateway" "aws" {
   address_space   = [var.aws_cidr]
 }
 
-# -----------------------------
-# Local Network Gateway: GCP
-# -----------------------------
 resource "azurerm_local_network_gateway" "gcp" {
   name                = "gcp-local-gateway"
   location            = azurerm_resource_group.rg.location
@@ -48,9 +42,6 @@ resource "azurerm_local_network_gateway" "gcp" {
   address_space   = [var.gcp_cidr]
 }
 
-# -----------------------------
-# Conexión Azure ↔ AWS
-# -----------------------------
 resource "azurerm_virtual_network_gateway_connection" "conn_azure_aws" {
   name                = "conn-azure-aws"
   location            = azurerm_resource_group.rg.location
@@ -59,13 +50,9 @@ resource "azurerm_virtual_network_gateway_connection" "conn_azure_aws" {
   type                       = "IPsec"
   virtual_network_gateway_id = azurerm_virtual_network_gateway.gw.id
   local_network_gateway_id   = azurerm_local_network_gateway.aws.id
-
-  shared_key = var.psk_aws   # ← ESTA VARIABLE NO EXISTE → DEBES DECLARARLA
+  shared_key                 = var.psk_aws
 }
 
-# -----------------------------
-# Conexión Azure ↔ GCP
-# -----------------------------
 resource "azurerm_virtual_network_gateway_connection" "conn_azure_gcp" {
   name                = "conn-azure-gcp"
   location            = azurerm_resource_group.rg.location
@@ -74,6 +61,5 @@ resource "azurerm_virtual_network_gateway_connection" "conn_azure_gcp" {
   type                       = "IPsec"
   virtual_network_gateway_id = azurerm_virtual_network_gateway.gw.id
   local_network_gateway_id   = azurerm_local_network_gateway.gcp.id
-
-  shared_key = var.psk_gcp   # ← ESTA VARIABLE TAMPOCO EXISTE
+  shared_key                 = var.psk_gcp
 }

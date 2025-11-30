@@ -23,7 +23,7 @@ variable "aws_cidr" {
   type = string
 }
 
-variable "psk_azure" {
+variable "psk_aws" {
   type = string
 }
 

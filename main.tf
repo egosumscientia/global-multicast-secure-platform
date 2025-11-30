@@ -1,53 +1,57 @@
-module "aws" {
-  source = "./aws"
+resource "aws_vpn_gateway" "vgw" {
+  vpc_id = aws_vpc.main.id
 
-  region      = var.region
-  azure_ip    = var.azure_ip
-  gcp_ip      = var.gcp_ip
-
-  azure_cidr  = var.azure_cidr
-  gcp_cidr    = var.gcp_cidr
-  aws_cidr    = var.aws_cidr
-
-  psk_azure   = var.psk_azure
-  psk_gcp     = var.psk_gcp
+  tags = {
+    Name = "aws-multicloud-vgw"
+  }
 }
 
+resource "aws_customer_gateway" "cg_azure" {
+  bgp_asn    = 65010
+  ip_address = var.azure_ip
+  type       = "ipsec.1"
 
-module "azure" {
-  source = "./azure"
-
-  region       = var.region
-  aws_ip       = var.aws_ip
-  gcp_ip       = var.gcp_ip
-  aws_cidr     = var.aws_cidr
-  gcp_cidr     = var.gcp_cidr
-  azure_cidr   = var.azure_cidr
-  psk_aws      = var.psk_azure
-  psk_gcp      = var.psk_gcp
-
-  subscription_id = var.subscription_id
-  tenant_id       = var.tenant_id
-  client_id       = var.client_id
-  client_secret   = var.client_secret
+  tags = {
+    Name = "aws-to-azure-cgw"
+  }
 }
 
+resource "aws_customer_gateway" "cg_gcp" {
+  bgp_asn    = 65020
+  ip_address = var.gcp_ip
+  type       = "ipsec.1"
 
-module "gcp" {
-  source = "./gcp"
+  tags = {
+    Name = "aws-to-gcp-cgw"
+  }
+}
 
-  project      = var.project
-  region       = var.region
-  zone         = var.zone
+resource "aws_vpn_connection" "vpn_aws_azure" {
+  vpn_gateway_id      = aws_vpn_gateway.vgw.id
+  customer_gateway_id = aws_customer_gateway.cg_azure.id
+  type                = "ipsec.1"
+  static_routes_only  = true
 
-  subnet_cidr  = var.subnet_cidr
+  tunnel1_preshared_key = var.psk_aws
+  tunnel2_preshared_key = var.psk_aws
+}
 
-  aws_ip       = var.aws_ip
-  azure_ip     = var.azure_ip
+resource "aws_vpn_connection" "vpn_aws_gcp" {
+  vpn_gateway_id      = aws_vpn_gateway.vgw.id
+  customer_gateway_id = aws_customer_gateway.cg_gcp.id
+  type                = "ipsec.1"
+  static_routes_only  = true
 
-  aws_cidr     = var.aws_cidr
-  azure_cidr   = var.azure_cidr
-  gcp_cidr     = var.gcp_cidr
+  tunnel1_preshared_key = var.psk_gcp
+  tunnel2_preshared_key = var.psk_gcp
+}
 
-  psk          = var.psk
+resource "aws_vpn_connection_route" "route_aws_to_azure" {
+  destination_cidr_block = var.azure_cidr
+  vpn_connection_id      = aws_vpn_connection.vpn_aws_azure.id
+}
+
+resource "aws_vpn_connection_route" "route_aws_to_gcp" {
+  destination_cidr_block = var.gcp_cidr
+  vpn_connection_id      = aws_vpn_connection.vpn_aws_gcp.id
 }
