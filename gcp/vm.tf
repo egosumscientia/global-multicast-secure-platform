@@ -9,7 +9,7 @@ resource "google_compute_instance" "vm" {
 
   boot_disk {
     initialize_params {
-      image = "projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20240114"
+      image = "projects/ubuntu-os-cloud/global/images/family/ubuntu-2204-lts"
     }
   }
 

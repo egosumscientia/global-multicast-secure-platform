@@ -10,7 +10,7 @@ terraform {
 }
 
 provider "google" {
-  project = "global-multicloud-secure-platform"
+  project = "gcp-multicloud-secure"
   region  = "us-central1"
   zone    = "us-central1-a"
 }

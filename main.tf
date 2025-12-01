@@ -4,11 +4,11 @@
 module "aws" {
   source = "./aws"
 
-  region     = var.region
+  region = var.region
 
   # IPs públicas de los gateways remotos
-  azure_ip   = var.azure_ip
-  gcp_ip     = var.gcp_ip
+  azure_ip = var.azure_ip
+  gcp_ip   = var.gcp_ip
 
   # CIDRs remotos
   azure_cidr = var.azure_cidr
@@ -16,8 +16,8 @@ module "aws" {
   aws_cidr   = var.aws_cidr
 
   # PSKs correctos
-  psk_aws = var.psk_aws   # AWS ↔ AZURE
-  psk_gcp = var.psk_gcp   # AWS ↔ GCP
+  psk_aws = var.psk_aws # AWS ↔ AZURE
+  psk_gcp = var.psk_gcp # AWS ↔ GCP
 }
 
 
@@ -27,20 +27,20 @@ module "aws" {
 module "azure" {
   source = "./azure"
 
-  region       = var.region
+  region = var.region
 
   # IPs públicas remotas
-  aws_ip       = var.aws_ip
-  gcp_ip       = var.gcp_ip
+  aws_ip = var.aws_ip
+  gcp_ip = var.gcp_ip
 
   # CIDRs remotos
-  aws_cidr     = var.aws_cidr
-  gcp_cidr     = var.gcp_cidr
-  azure_cidr   = var.azure_cidr
+  aws_cidr   = var.aws_cidr
+  gcp_cidr   = var.gcp_cidr
+  azure_cidr = var.azure_cidr
 
   # PSKs correctos
-  psk_aws = var.psk_aws   # AWS ↔ AZURE
-  psk_gcp = var.psk_gcp   # AZURE ↔ GCP
+  psk_aws = var.psk_aws # AWS ↔ AZURE
+  psk_gcp = var.psk_gcp # AZURE ↔ GCP
 
   subscription_id = var.subscription_id
   tenant_id       = var.tenant_id
@@ -62,8 +62,8 @@ module "gcp" {
   subnet_cidr = var.subnet_cidr
 
   # IPs públicas remotas
-  aws_ip     = var.aws_ip
-  azure_ip   = var.azure_ip
+  aws_ip   = var.aws_ip
+  azure_ip = var.azure_ip
 
   # CIDRs remotos
   aws_cidr   = var.aws_cidr
@@ -71,5 +71,5 @@ module "gcp" {
   gcp_cidr   = var.gcp_cidr
 
   # PSK correcto
-  psk = var.psk_gcp   # AZURE ↔ GCP
+  psk = var.psk_gcp # AZURE ↔ GCP
 }
