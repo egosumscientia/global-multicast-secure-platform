@@ -14,7 +14,7 @@ resource "google_compute_router" "router" {
   network = google_compute_network.vpc.id
 
   bgp {
-    asn = 65002
+    asn = 65100
   }
 }
 

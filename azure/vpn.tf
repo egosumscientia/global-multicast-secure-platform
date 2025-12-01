@@ -46,7 +46,7 @@ resource "azurerm_local_network_gateway" "gcp" {
   address_space   = [var.gcp_cidr]
 
   bgp_settings {
-    asn                 = 65002
+    asn                 = 65100
     bgp_peering_address = var.gcp_bgp_ip
   }
 }
