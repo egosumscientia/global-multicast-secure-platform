@@ -149,7 +149,7 @@ resource "google_compute_external_vpn_gateway" "azure" {
 
   interface {
     id         = 0
-    ip_address = "172.190.184.73"
+    ip_address = var.azure_ip
   }
 }
 
