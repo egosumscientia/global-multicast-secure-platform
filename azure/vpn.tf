@@ -24,7 +24,7 @@ resource "azurerm_virtual_network_gateway" "gw" {
   }
 
   bgp_settings {
-    asn = 65515
+    asn               = 65001
   }
 }
 
