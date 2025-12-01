@@ -73,4 +73,9 @@ resource "azurerm_virtual_network_gateway_connection" "conn_azure_gcp" {
   shared_key                 = var.psk_gcp
 
   enable_bgp = true
+
+  custom_bgp_addresses {
+    primary = var.gcp_bgp_ip
+  }
+
 }

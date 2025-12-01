@@ -177,7 +177,7 @@ resource "google_compute_router_interface" "azure_if" {
   router     = google_compute_router.router_azure.name
   region     = var.region
 
-  ip_range = "10.20.255.29/30"
+  ip_range   = "169.254.21.2/30"
   vpn_tunnel = google_compute_vpn_tunnel.azure_tunnel.id
 }
 
@@ -187,7 +187,7 @@ resource "google_compute_router_peer" "azure_bgp_peer" {
   region          = var.region
 
   interface       = google_compute_router_interface.azure_if.name
-  peer_ip_address = "10.20.255.30"
+  peer_ip_address = "169.254.21.1"
   peer_asn        = 65001
   advertise_mode  = "DEFAULT"
 }
