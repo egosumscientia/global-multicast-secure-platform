@@ -30,7 +30,23 @@ variable "psk_gcp" {
   type = string
 }
 
-variable "subscription_id" { type = string }
-variable "tenant_id"       { type = string }
-variable "client_id"       { type = string }
-variable "client_secret"   { type = string }
+variable "subscription_id" { 
+  type = string 
+}
+
+variable "tenant_id" { 
+  type = string 
+}
+
+variable "client_id" { 
+  type = string 
+}
+
+variable "client_secret" { 
+  type = string 
+}
+
+variable "gcp_bgp_ip" {
+  type        = string
+  description = "Dirección BGP interna del túnel en GCP (ej: 169.254.x.x)"
+}

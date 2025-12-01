@@ -38,14 +38,18 @@ module "azure" {
   gcp_cidr   = var.gcp_cidr
   azure_cidr = var.azure_cidr
 
-  # PSKs correctos
-  psk_aws = var.psk_aws # AWS ↔ AZURE
-  psk_gcp = var.psk_gcp # AZURE ↔ GCP
+  # PSKs
+  psk_aws = var.psk_aws
+  psk_gcp = var.psk_gcp
 
+  # Credenciales Azure
   subscription_id = var.subscription_id
   tenant_id       = var.tenant_id
   client_id       = var.client_id
   client_secret   = var.client_secret
+
+  # BGP
+  gcp_bgp_ip = var.gcp_bgp_ip
 }
 
 

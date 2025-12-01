@@ -151,26 +151,14 @@ resource "google_compute_vpn_tunnel" "azure_tunnel" {
   shared_secret = var.psk
 
   router = google_compute_router.router.id
+
+  # RUTAS ESTÁTICAS (GCP → AZURE)
+  local_traffic_selector  = ["10.0.0.0/16"]      # ← tu red GCP
+  remote_traffic_selector = ["10.20.0.0/16"]     # ← red Azure
 }
 
-# BGP sobre AZURE TUNNEL (IPs según tu config)
-resource "google_compute_router_interface" "azure_if" {
-  name       = "azure-if"
-  router     = google_compute_router.router.name
-  region     = var.region
+# ❌ SE ELIMINA (NO SE USA BGP CON AZURE)
+# resource "google_compute_router_interface" "azure_if" { ... }
+# resource "google_compute_router_peer" "azure_bgp_peer" { ... }
 
-  ip_range   = "10.20.255.29/30"      # GCP: 10.20.255.29, Azure: 10.20.255.30
-  vpn_tunnel = google_compute_vpn_tunnel.azure_tunnel.id
-}
-
-resource "google_compute_router_peer" "azure_bgp_peer" {
-  name       = "azure-peer"
-  router     = google_compute_router.router.name
-  region     = var.region
-  interface  = google_compute_router_interface.azure_if.name
-
-  peer_ip_address = "10.20.255.30"    # IP BGP lado Azure
-  peer_asn        = 65515             # ASN Azure
-  advertise_mode  = "DEFAULT"
-}
 

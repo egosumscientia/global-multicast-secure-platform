@@ -77,11 +77,3 @@ output "gcp_bgp_peer_aws_1" {
 output "gcp_bgp_peer_aws_2" {
   value = google_compute_router_peer.aws_bgp_peer_2.name
 }
-
-########################################
-# AZURE BGP PEER
-########################################
-
-output "gcp_bgp_peer_azure" {
-  value = google_compute_router_peer.azure_bgp_peer.name
-}

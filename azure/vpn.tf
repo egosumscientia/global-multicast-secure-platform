@@ -22,6 +22,10 @@ resource "azurerm_virtual_network_gateway" "gw" {
     private_ip_address_allocation = "Dynamic"
     subnet_id                     = azurerm_subnet.gateway.id
   }
+
+  bgp_settings {
+    asn = 65515
+  }
 }
 
 resource "azurerm_local_network_gateway" "aws" {
@@ -40,6 +44,11 @@ resource "azurerm_local_network_gateway" "gcp" {
 
   gateway_address = var.gcp_ip
   address_space   = [var.gcp_cidr]
+
+  bgp_settings {
+    asn                 = 65002
+    bgp_peering_address = var.gcp_bgp_ip
+  }
 }
 
 resource "azurerm_virtual_network_gateway_connection" "conn_azure_aws" {
@@ -62,4 +71,6 @@ resource "azurerm_virtual_network_gateway_connection" "conn_azure_gcp" {
   virtual_network_gateway_id = azurerm_virtual_network_gateway.gw.id
   local_network_gateway_id   = azurerm_local_network_gateway.gcp.id
   shared_key                 = var.psk_gcp
+
+  enable_bgp = true
 }
