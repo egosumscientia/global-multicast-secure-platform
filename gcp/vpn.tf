@@ -51,8 +51,9 @@ resource "google_compute_external_vpn_gateway" "azure" {
   }
 }
 
+
 ###################
-# AWS TUNNEL 1    #
+# AWS TUNNEL 1
 ###################
 
 resource "google_compute_vpn_tunnel" "aws_tunnel_1" {
@@ -66,6 +67,8 @@ resource "google_compute_vpn_tunnel" "aws_tunnel_1" {
   peer_external_gateway_interface = 0
 
   shared_secret = var.psk
+
+  router = google_compute_router.router.id
 }
 
 # BGP sobre AWS TUNNEL 1 (rango asumido /30, ajusta si en AWS es otro)
@@ -89,8 +92,9 @@ resource "google_compute_router_peer" "aws_bgp_peer_1" {
   advertise_mode  = "DEFAULT"
 }
 
+
 ###################
-# AWS TUNNEL 2    #
+# AWS TUNNEL 2
 ###################
 
 resource "google_compute_vpn_tunnel" "aws_tunnel_2" {
@@ -104,6 +108,8 @@ resource "google_compute_vpn_tunnel" "aws_tunnel_2" {
   peer_external_gateway_interface = 1
 
   shared_secret = var.psk
+
+  router = google_compute_router.router.id
 }
 
 # BGP sobre AWS TUNNEL 2 (IPs según tu config anterior)
@@ -127,8 +133,9 @@ resource "google_compute_router_peer" "aws_bgp_peer_2" {
   advertise_mode  = "DEFAULT"
 }
 
+
 ###################
-# AZURE TUNNEL    #
+# AZURE TUNNEL
 ###################
 
 resource "google_compute_vpn_tunnel" "azure_tunnel" {
@@ -142,6 +149,8 @@ resource "google_compute_vpn_tunnel" "azure_tunnel" {
   peer_external_gateway_interface = 0
 
   shared_secret = var.psk
+
+  router = google_compute_router.router.id
 }
 
 # BGP sobre AZURE TUNNEL (IPs según tu config)
@@ -164,3 +173,4 @@ resource "google_compute_router_peer" "azure_bgp_peer" {
   peer_asn        = 65515             # ASN Azure
   advertise_mode  = "DEFAULT"
 }
+
