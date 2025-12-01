@@ -47,3 +47,40 @@ resource "azurerm_public_ip" "public_ip" {
   allocation_method   = "Static"
   sku                 = "Standard"
 }
+
+# Network Security Group para SSH y ICMP
+resource "azurerm_network_security_group" "nsg" {
+  name                = "nsg-multicloud-vm"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+
+  security_rule {
+    name                       = "SSH"
+    priority                   = 1001
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = "TU_IP_PUBLICA"   # reemplaza con tu IP o 0.0.0.0/0 para pruebas
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
+    name                       = "ICMP"
+    priority                   = 1002
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Icmp"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+}
+
+# Asociación NSG a la NIC
+resource "azurerm_network_interface_security_group_association" "nsg_assoc" {
+  network_interface_id      = azurerm_network_interface.nic.id
+  network_security_group_id = azurerm_network_security_group.nsg.id
+}
