@@ -35,8 +35,8 @@ resource "aws_security_group" "vm_sg" {
 resource "aws_instance" "vm" {
   ami                         = "ami-0c02fb55956c7d316"
   instance_type               = "t2.micro"
-  subnet_id                   = aws_subnet.main.id
-  associate_public_ip_address = true
+  subnet_id = aws_subnet.private.id
+  associate_public_ip_address = false
   key_name                    = aws_key_pair.multicloud.key_name
   vpc_security_group_ids      = [aws_security_group.vm_sg.id]
 
