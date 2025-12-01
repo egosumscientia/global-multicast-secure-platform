@@ -151,14 +151,7 @@ resource "google_compute_vpn_tunnel" "azure_tunnel" {
   shared_secret = var.psk
 
   router = google_compute_router.router.id
-
-  # RUTAS ESTÁTICAS (GCP → AZURE)
-  local_traffic_selector  = ["10.0.0.0/16"]      # ← tu red GCP
-  remote_traffic_selector = ["10.20.0.0/16"]     # ← red Azure
 }
 
-# ❌ SE ELIMINA (NO SE USA BGP CON AZURE)
-# resource "google_compute_router_interface" "azure_if" { ... }
-# resource "google_compute_router_peer" "azure_bgp_peer" { ... }
 
 
