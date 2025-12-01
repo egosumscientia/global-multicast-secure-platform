@@ -24,8 +24,15 @@ resource "azurerm_virtual_network_gateway" "gw" {
   }
 
   bgp_settings {
-    asn               = 65001
+    asn = 65001
+
+    peering_addresses {
+      ip_configuration_name = "vpngw-ipconfig"
+
+      apipa_addresses = ["169.254.21.1"]
+    }
   }
+
 }
 
 resource "azurerm_local_network_gateway" "aws" {
