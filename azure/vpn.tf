@@ -50,13 +50,18 @@ resource "azurerm_local_network_gateway" "gcp" {
   resource_group_name = azurerm_resource_group.rg.name
 
   gateway_address = var.gcp_ip
-  address_space   = [var.gcp_cidr]
+
+  address_space = [
+    var.gcp_cidr,
+    "169.254.21.0/30"
+  ]
 
   bgp_settings {
     asn                 = 65100
     bgp_peering_address = var.gcp_bgp_ip
   }
 }
+
 
 resource "azurerm_virtual_network_gateway_connection" "conn_azure_aws" {
   name                = "conn-azure-aws"
