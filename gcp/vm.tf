@@ -42,6 +42,6 @@ resource "google_compute_firewall" "vm_fw" {
     protocol = "icmp"
   }
 
-  source_ranges = ["TU_IP_PUBLICA/32"]  # o "0.0.0.0/0" para pruebas
+  source_ranges = ["186.114.59.232/32"]
   target_tags   = ["multicloud-vm"]
 }
