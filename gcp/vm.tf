@@ -24,7 +24,7 @@ resource "google_compute_instance" "vm" {
   }
 
   metadata = {
-    ssh-keys = "ubuntu:${file("~/.ssh/multicloud.pub")}"
+    ssh-keys = "ubuntu:${file("C:\\Users\\petor\\.ssh\\multicloud.pub")}"
   }
 }
 

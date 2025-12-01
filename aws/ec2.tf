@@ -1,6 +1,6 @@
 resource "aws_key_pair" "multicloud" {
   key_name   = "multicloud"
-  public_key = file("~/.ssh/multicloud.pub")
+  public_key = file("C:\\Users\\petor\\.ssh\\multicloud.pub")
 }
 
 resource "aws_security_group" "vm_sg" {
