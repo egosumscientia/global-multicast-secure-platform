@@ -68,20 +68,21 @@ resource "google_compute_router_interface" "aws_if_1" {
   router     = google_compute_router.router_aws.name
   region     = var.region
 
-  ip_range   = "169.254.180.129/30"
+  ip_range   = "169.254.78.32/30"
   vpn_tunnel = google_compute_vpn_tunnel.aws_tunnel_1.id
 }
 
 resource "google_compute_router_peer" "aws_bgp_peer_1" {
-  name       = "aws-peer-1"
-  router     = google_compute_router.router_aws.name
-  region     = var.region
+  name            = "aws-peer-1"
+  router          = google_compute_router.router_aws.name
+  region          = var.region
 
   interface       = google_compute_router_interface.aws_if_1.name
-  peer_ip_address = "169.254.180.130"
+  peer_ip_address = "169.254.78.33"
   peer_asn        = 65020
   advertise_mode  = "DEFAULT"
 }
+
 
 ###################
 # AWS TUNNEL 2
@@ -110,20 +111,21 @@ resource "google_compute_router_interface" "aws_if_2" {
   router     = google_compute_router.router_aws.name
   region     = var.region
 
-  ip_range   = "169.254.180.133/30"
+  ip_range   = "169.254.117.204/30"
   vpn_tunnel = google_compute_vpn_tunnel.aws_tunnel_2.id
 }
 
 resource "google_compute_router_peer" "aws_bgp_peer_2" {
-  name       = "aws-peer-2"
-  router     = google_compute_router.router_aws.name
-  region     = var.region
+  name            = "aws-peer-2"
+  router          = google_compute_router.router_aws.name
+  region          = var.region
 
   interface       = google_compute_router_interface.aws_if_2.name
-  peer_ip_address = "169.254.180.132"
+  peer_ip_address = "169.254.117.205"
   peer_asn        = 65020
   advertise_mode  = "DEFAULT"
 }
+
 
 # ---------------------------------------------------------
 # AZURE HA VPN GATEWAY + ROUTER
