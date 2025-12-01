@@ -162,7 +162,7 @@ resource "google_compute_vpn_tunnel" "azure_tunnel" {
   region                = var.region
 
   vpn_gateway           = google_compute_ha_vpn_gateway.ha_vpn_azure.id
-  vpn_gateway_interface = 0
+  vpn_gateway_interface = 1
 
   peer_external_gateway           = google_compute_external_vpn_gateway.azure.id
   peer_external_gateway_interface = 0
