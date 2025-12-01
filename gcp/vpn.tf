@@ -32,12 +32,12 @@ resource "google_compute_external_vpn_gateway" "aws" {
 
   interface {
     id         = 0
-    ip_address = "34.198.68.211"
+    ip_address = "34.231.116.208"
   }
 
   interface {
     id         = 1
-    ip_address = "34.230.218.47"
+    ip_address = "44.199.148.30"
   }
 }
 
@@ -58,6 +58,9 @@ resource "google_compute_vpn_tunnel" "aws_tunnel_1" {
   shared_secret = var.psk
 
   router = google_compute_router.router_aws.id
+
+  ike_version              = 1
+
 }
 
 resource "google_compute_router_interface" "aws_if_1" {
@@ -97,6 +100,9 @@ resource "google_compute_vpn_tunnel" "aws_tunnel_2" {
   shared_secret = var.psk
 
   router = google_compute_router.router_aws.id
+
+  ike_version              = 1
+  
 }
 
 resource "google_compute_router_interface" "aws_if_2" {
