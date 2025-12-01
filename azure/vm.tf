@@ -62,7 +62,7 @@ resource "azurerm_network_security_group" "nsg" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "22"
-    source_address_prefix      = "TU_IP_PUBLICA"   # reemplaza con tu IP o 0.0.0.0/0 para pruebas
+    source_address_prefix      = "186.114.59.232/32"
     destination_address_prefix = "*"
   }
 
