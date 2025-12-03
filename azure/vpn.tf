@@ -82,12 +82,8 @@ resource "azurerm_virtual_network_gateway_connection" "conn_azure_gcp" {
   type                       = "IPsec"
   virtual_network_gateway_id = azurerm_virtual_network_gateway.gw.id
   local_network_gateway_id   = azurerm_local_network_gateway.gcp.id
-  shared_key                 = var.psk_gcp
+  shared_key                 = var.psk_azure_gcp
 
   enable_bgp = true
 
-/*   custom_bgp_addresses {
-    primary = "169.254.21.1"
-  }
- */
 }

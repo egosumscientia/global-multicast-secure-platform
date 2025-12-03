@@ -7,5 +7,5 @@ resource "google_compute_subnetwork" "subnet" {
   name          = "subnet-main"
   network       = google_compute_network.vpc.id
   region        = var.region
-  ip_cidr_range = "10.30.1.0/24"
+  ip_cidr_range = cidrsubnet(var.gcp_cidr, 8, 1)
 }

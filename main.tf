@@ -26,32 +26,28 @@ module "aws" {
 ##############################
 module "azure" {
   source = "./azure"
-
-  region = var.region
-
-  # IPs públicas remotas
-  aws_ip = var.aws_ip
-  gcp_ip = var.gcp_ip
-
-  # CIDRs remotos
+  
+  region  = var.region
+  
+  aws_ip  = var.aws_ip
+  gcp_ip  = var.gcp_ip
+  azure_ip = var.azure_ip
+  
   aws_cidr   = var.aws_cidr
-  gcp_cidr   = var.gcp_cidr
   azure_cidr = var.azure_cidr
-
-  # PSKs
-  psk_aws = var.psk_aws
-  psk_gcp = var.psk_gcp
-
-  # Credenciales Azure
+  gcp_cidr   = var.gcp_cidr
+  
+  # PSKs CORREGIDOS:
+  psk_aws       = var.psk_aws        # Para Azure↔AWS
+  psk_azure_gcp = var.psk_azure_gcp  # Para Azure↔GCP ← NUEVO
+  
+  gcp_bgp_ip = var.gcp_bgp_ip
+  
   subscription_id = var.subscription_id
   tenant_id       = var.tenant_id
   client_id       = var.client_id
   client_secret   = var.client_secret
-
-  # BGP
-  gcp_bgp_ip = var.gcp_bgp_ip
 }
-
 
 ##############################
 #  MÓDULO GCP
@@ -69,11 +65,16 @@ module "gcp" {
   aws_ip   = var.aws_ip
   azure_ip = var.azure_ip
 
+  # IPs dinámicas de túneles AWS
+  aws_tunnel1_ip = module.aws.vpn_aws_gcp_tunnel1_ip
+  aws_tunnel2_ip = module.aws.vpn_aws_gcp_tunnel2_ip
+
   # CIDRs remotos
   aws_cidr   = var.aws_cidr
   azure_cidr = var.azure_cidr
   gcp_cidr   = var.gcp_cidr
 
-  # PSK correcto
-  psk = var.psk_gcp # AZURE ↔ GCP
+  # PSKs correctos separados por conexión
+  psk_gcp_aws   = var.psk_gcp       # GCP ↔ AWS
+  psk_gcp_azure = var.psk_azure_gcp # GCP ↔ Azure
 }
