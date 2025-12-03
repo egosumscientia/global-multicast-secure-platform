@@ -29,8 +29,9 @@ module "azure" {
   
   region  = var.region
   
-  aws_ip  = var.aws_ip
-  gcp_ip  = var.gcp_ip
+  # IPs públicas
+  aws_ip = var.aws_ip
+  gcp_ip = "34.157.226.19" # IP de la Interfaz 1 del Gateway GCP (donde está el túnel)
   azure_ip = var.azure_ip
   
   aws_cidr   = var.aws_cidr

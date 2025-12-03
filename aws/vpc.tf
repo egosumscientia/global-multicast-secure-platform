@@ -29,7 +29,7 @@ resource "aws_internet_gateway" "igw" {
 resource "aws_subnet" "main" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = cidrsubnet(var.aws_cidr, 8, 1)
-  availability_zone = "${var.region}a"
+  availability_zone = "us-east-1a"
 
   tags = {
     Name = "aws-multicloud-subnet"
@@ -42,7 +42,7 @@ resource "aws_subnet" "main" {
 resource "aws_subnet" "private" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = cidrsubnet(var.aws_cidr, 8, 2)
-  availability_zone       = "${var.region}b"
+  availability_zone       = "us-east-1b"
   map_public_ip_on_launch = false
 
   tags = {

@@ -57,7 +57,7 @@ resource "azurerm_local_network_gateway" "gcp" {
   ]
 
   bgp_settings {
-    asn                 = 65100
+    asn                 = 65110
     bgp_peering_address = var.gcp_bgp_ip
   }
 }
@@ -86,4 +86,14 @@ resource "azurerm_virtual_network_gateway_connection" "conn_azure_gcp" {
 
   enable_bgp = true
 
+  ipsec_policy {
+    dh_group         = "DHGroup14"
+    ike_encryption   = "AES256"
+    ike_integrity    = "SHA256"
+    ipsec_encryption = "AES256"
+    ipsec_integrity  = "SHA256"
+    pfs_group        = "PFS2048"
+    sa_lifetime      = 27000
+    sa_datasize      = 102400000
+  }
 }
