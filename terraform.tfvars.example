@@ -1,0 +1,11 @@
+project          = "gcp-multicloud-secure"
+region           = "us-central1"
+zone             = "us-central1-a"
+
+aws_ip           = "<AWS_PUBLIC_IP>"
+azure_ip         = "<AZURE_PUBLIC_IP>"
+gcp_ip           = "<GCP_PUBLIC_IP>"
+
+psk_aws          = "<PSK_AWS_AZURE>"
+psk_gcp          = "<PSK_GCP_AWS>"
+psk_azure_gcp    = "<PSK_AZURE_GCP>"
